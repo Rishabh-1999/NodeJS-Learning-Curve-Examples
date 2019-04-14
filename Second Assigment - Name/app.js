@@ -27,6 +27,45 @@ function createTask(dir,text, callback)
   });
 }
 
+function deleteTask(dir,index,callback)
+{
+  console.log("delete"+index);
+  readTasksForDelete(dir,index,function(tasks,index) 
+  {
+    tasks=deleteInIndex(tasks,index);
+    writeTasks(dir,tasks, callback);
+    callback();
+  });
+}
+
+function deleteInIndex(tasks,index)
+{
+  tasks.splice(index, 1);
+  return tasks;
+}
+
+function readTasksForDelete(dir,index,callback) 
+{
+  fs.readFile(dir, function(error, contents) 
+  {
+    if (error) 
+    {
+      throw error;
+    }
+
+    var tasks;
+    if (contents.length === 0) 
+    {
+      tasks = [];
+    } 
+    else 
+    {
+      tasks = JSON.parse(contents);
+    }
+    callback(tasks,index);
+  });
+}
+
 /* Reads all tasks from the filesystem. Calls the given callback, passing in an
  * array of tasks, when finished. */
 function readTasks(dir,callback) 
@@ -34,17 +73,17 @@ function readTasks(dir,callback)
   fs.readFile(dir, function(error, contents) 
   {
     if (error) 
-  {
+    {
       throw error;
     }
 
     var tasks;
     if (contents.length === 0) 
-  {
+    {
       tasks = [];
     } 
-  else 
-  {
+    else 
+    {
       tasks = JSON.parse(contents);
     }
     callback(tasks);
@@ -61,7 +100,6 @@ function writeTasks(dir,tasks, callback)
   {
     throw error;
   }
-
     callback();
   });
 }
@@ -85,18 +123,14 @@ function readJSONBody(request, callback)
 http.createServer(function(request, response) 
 {
   var pathname = url.parse(request.url).pathname;
-
+  console.log(pathname);
   if (request.method === "GET") {
     if (pathname === "/") {
       readAndServe('index.html', 'text/html', response);
-    } else if (pathname === "/css/style.css" ||
-               pathname === "/css/normalize.css") {
+    } else if (pathname === "/css/style.css") {
       readAndServe('.' + pathname, 'text/css', response);
-    } else if (pathname === "/js/script.js" ||
-               pathname === "/js/handlebars.js") {
+    } else if (pathname === "/js/script.js") {
       readAndServe('.' + pathname, 'text/javascript', response);
-    } else if (pathname === "/images/pattern.png") {
-      readAndServe('.' + pathname, 'image/png', response);
     } else if (pathname === "/name1") {
       readTasks('name1',function(tasks) {
         response.writeHead(200, {'Content-type': 'application/json'});
@@ -155,6 +189,37 @@ http.createServer(function(request, response)
       });
     } else {
       response.end();
+    }
+  } else if(request.method=="DELETE"){
+    if (pathname=="/name1" )
+    {
+       readJSONBody(request, function(task) {
+        deleteTask('name1',task.text,function() {
+          // must wait until task is stored before returning response
+          response.end();
+        });
+      });
+    } else if (pathname=="/name2" ) {
+       readJSONBody(request, function(task) {
+        deleteTask('name2',task.text,function() {
+          // must wait until task is stored before returning response
+          response.end();
+        });
+      });
+    } else if (pathname=="/name3" ) {
+       readJSONBody(request, function(task) {
+        deleteTask('name3',task.text,function() {
+          // must wait until task is stored before returning response
+          response.end();
+        });
+      });
+    } else if (pathname=="/name4" ) {
+       readJSONBody(request, function(task) {
+        deleteTask('name4',task.text,function() {
+          // must wait until task is stored before returning response
+          response.end();
+        });
+      });
     }
   } else {
     response.end();

@@ -2,7 +2,7 @@
  {
   var ENTER_KEY_CODE = 13;
   var STATUS_OK = 200;
-  var opened;
+  var opened=0;
 
   var list=document.getElementById('list');
   var input=document.getElementById('input');
@@ -23,6 +23,7 @@
 
   dataof1.addEventListener("click",function()
   {
+    var file="/name1";
     bright("1");
     console.log('dataof1 printing');
     var request = new XMLHttpRequest();
@@ -31,11 +32,26 @@
       if (request.status === STATUS_OK) {
           var tasks = JSON.parse(request.responseText);
           list.innerHTML="";
+          var i=0;
           tasks.forEach(function(task) {
-          var li = document.createElement('li');
-          li.innerHTML = task.text;
-          list.appendChild(li);
-        });
+            var li = document.createElement('li');
+            var btn=document.createElement('button');
+            btn.setAttribute("id", i);
+            btn.setAttribute("style", "float:right;");
+            btn.onclick=function(event)
+            {
+              var request = new XMLHttpRequest();
+              console.log('DELETE'+" "+file+" "+event.target.id);
+              request.open('DELETE',file);
+              request.send(JSON.stringify({ text: event.target.id }));
+              dataof1.click();
+            }
+            btn.innerHTML="X";
+            li.innerHTML = task.text;
+            li.appendChild(btn);
+            list.appendChild(li);
+            i++;
+          });
       } 
      });
     request.open('GET', '/name1');
@@ -44,6 +60,7 @@
 
   dataof2.addEventListener("click",function()
   {
+    var file="/name2";
     bright("2");
     console.log('dataof2 printing');
     var request = new XMLHttpRequest();
@@ -52,40 +69,72 @@
       if (request.status === STATUS_OK) {
           var tasks = JSON.parse(request.responseText);
           list.innerHTML="";
+          var i=0;
           tasks.forEach(function(task) {
-          var li = document.createElement('li');
-          li.innerHTML = task.text;
-          list.appendChild(li);
-        });
-      }  
-    });
+            var li = document.createElement('li');
+            var btn=document.createElement('button');
+            btn.setAttribute("id", i);
+            btn.setAttribute("style", "float:right;");
+            btn.onclick=function(event)
+            {
+              var request = new XMLHttpRequest();
+              console.log('DELETE'+" "+file+" "+event.target.id);
+              request.open('DELETE',file);
+              request.send(JSON.stringify({ text: event.target.id }));
+              dataof2.click();
+            }
+            btn.innerHTML="X";
+            li.innerHTML = task.text;
+            li.appendChild(btn);
+            list.appendChild(li);
+            i++;
+          });
+      } 
+     });
     request.open('GET', '/name2');
     request.send();
   });
 
   dataof3.addEventListener("click",function()
   {
+    var file="/name3";
     bright("3");
     console.log('dataof3 printing');
     var request = new XMLHttpRequest();
     request.addEventListener('load', function() 
     {
       if (request.status === STATUS_OK) {
-        var tasks = JSON.parse(request.responseText);
-        list.innerHTML="";
-        tasks.forEach(function(task) {
-        var li = document.createElement('li');
-        li.innerHTML = task.text;
-        list.appendChild(li);
-        });
-      }
-    });
+          var tasks = JSON.parse(request.responseText);
+          list.innerHTML="";
+          var i=0;
+          tasks.forEach(function(task) {
+            var li = document.createElement('li');
+            var btn=document.createElement('button');
+            btn.setAttribute("id", i);
+            btn.setAttribute("style", "float:right;");
+            btn.onclick=function(event)
+            {
+              var request = new XMLHttpRequest();
+              console.log('DELETE'+" "+file+" "+event.target.id);
+              request.open('DELETE',file);
+              request.send(JSON.stringify({ text: event.target.id }));
+              dataof3.click();
+            }
+            btn.innerHTML="X";
+            li.innerHTML = task.text;
+            li.appendChild(btn);
+            list.appendChild(li);
+            i++;
+          });
+      } 
+     });
     request.open('GET', '/name3');
     request.send();
   });
 
   dataof4.addEventListener("click",function()
   {
+    var file="/name4";
     bright("4");
     console.log('dataof4 printing');
     var request = new XMLHttpRequest();
@@ -94,13 +143,28 @@
       if (request.status === STATUS_OK) {
           var tasks = JSON.parse(request.responseText);
           list.innerHTML="";
+          var i=0;
           tasks.forEach(function(task) {
-          var li = document.createElement('li');
-          li.innerHTML = task.text;
-          list.appendChild(li);
-        });
-      }
-    });
+            var li = document.createElement('li');
+            var btn=document.createElement('button');
+            btn.setAttribute("id", i);
+            btn.setAttribute("style", "float:right;");
+            btn.onclick=function(event)
+            {
+              var request = new XMLHttpRequest();
+              console.log('DELETE'+" "+file+" "+event.target.id);
+              request.open('DELETE',file);
+              request.send(JSON.stringify({ text: event.target.id }));
+              dataof4.click();
+            }
+            btn.innerHTML="X";
+            li.innerHTML = task.text;
+            li.appendChild(btn);
+            list.appendChild(li);
+            i++;
+          });
+      } 
+     });
     request.open('GET', '/name4');
     request.send();
   });
@@ -119,6 +183,15 @@
          var li = document.createElement('li');
           li.innerHTML = input.value;
           list.appendChild(li);
+          input.value="";
+          if(f==1)
+              dataof1.click();
+            else if(f==2)
+               dataof2.click();
+            else if(f==3)
+               dataof3.click();
+            else if(f==4)
+               dataof4.click();
         }     
       });
       request.open('POST',file);
