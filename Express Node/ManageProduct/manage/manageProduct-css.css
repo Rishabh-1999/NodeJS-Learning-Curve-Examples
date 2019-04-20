@@ -1,0 +1,17 @@
+body 
+{
+	background-color: green;
+	color: white;
+	padding: 20px;
+}
+
+a 
+{
+	color: white;
+}
+
+#logout, #back_Btn{
+	padding: 7px;
+	border-radius: 10px;
+	background: orange;
+}
