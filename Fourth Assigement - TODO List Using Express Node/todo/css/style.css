@@ -1,0 +1,29 @@
+body
+{
+	position: absolute;
+	top: 20%;
+	left: 20%;
+	background:lightblue;
+}
+li
+{
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+#container
+{
+	width: 950px;
+	border: 1px solid black;
+	display: flex;
+	flex-direction: row;
+}
+#main
+{
+	width: 50%;
+	padding: 10px;
+}
+#content
+{
+	width: 30%;
+	padding: 10px;
+}

@@ -214,8 +214,8 @@ fs.readFile('./manage/currAcc.txt', function(error, contents)
   });
 })
 
-app.use(express.static(process.argv[3]));
-app.listen(process.argv[2]);
+app.use(express.static('manage'));
+app.listen(3000);
 console.log("Running on localhost")
 
 

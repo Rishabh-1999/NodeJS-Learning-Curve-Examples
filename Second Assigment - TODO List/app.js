@@ -27,6 +27,45 @@ function createTask(dir,text, callback)
   });
 }
 
+function deleteTask(dir,index,callback)
+{
+  console.log("delete"+index);
+  readTasksForDelete(dir,index,function(tasks,index) 
+  {
+    tasks=deleteInIndex(tasks,index);
+    writeTasks(dir,tasks, callback);
+    callback();
+  });
+}
+
+function deleteInIndex(tasks,index)
+{
+  tasks.splice(index, 1);
+  return tasks;
+}
+
+function readTasksForDelete(dir,index,callback) 
+{
+  fs.readFile(dir, function(error, contents) 
+  {
+    if (error) 
+    {
+      throw error;
+    }
+
+    var tasks;
+    if (contents.length === 0) 
+    {
+      tasks = [];
+    } 
+    else 
+    {
+      tasks = JSON.parse(contents);
+    }
+    callback(tasks,index);
+  });
+}
+
 /* Reads all tasks from the filesystem. Calls the given callback, passing in an
  * array of tasks, when finished. */
 function readTasks(dir,callback) 
@@ -151,9 +190,40 @@ http.createServer(function(request, response)
     } else {
       response.end();
     }
+  } else if(request.method=="DELETE"){
+    if (pathname=="/name1" )
+    {
+       readJSONBody(request, function(task) {
+        deleteTask('name1',task.text,function() {
+          // must wait until task is stored before returning response
+          response.end();
+        });
+      });
+    } else if (pathname=="/name2" ) {
+       readJSONBody(request, function(task) {
+        deleteTask('name2',task.text,function() {
+          // must wait until task is stored before returning response
+          response.end();
+        });
+      });
+    } else if (pathname=="/name3" ) {
+       readJSONBody(request, function(task) {
+        deleteTask('name3',task.text,function() {
+          // must wait until task is stored before returning response
+          response.end();
+        });
+      });
+    } else if (pathname=="/name4" ) {
+       readJSONBody(request, function(task) {
+        deleteTask('name4',task.text,function() {
+          // must wait until task is stored before returning response
+          response.end();
+        });
+      });
+    }
   } else {
     response.end();
   }
-}).listen(8000, '127.0.0.1');
+}).listen(3000, '127.0.0.1');
 
-console.log('Running on 127.0.0.1:8000');
+console.log('Running on 127.0.0.1:3000');
