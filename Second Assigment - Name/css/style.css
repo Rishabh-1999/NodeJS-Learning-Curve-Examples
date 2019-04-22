@@ -1,0 +1,15 @@
+body
+{
+	background:lightblue;
+	top:20%;
+	left:40%;
+	position:absolute;
+}
+button
+{
+	border-radius:10px;
+}
+li
+{
+    padding-top: 5px;
+}
