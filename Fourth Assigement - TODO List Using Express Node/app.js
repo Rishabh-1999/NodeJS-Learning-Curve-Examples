@@ -24,15 +24,11 @@ function deleteFromData(request, callback) {
 		});
 
 		request.on('end', function() {
-			console.log(body)
 			var data = JSON.parse(body);
 
 
 			for(var i=0;i<newData.length;i++)
 			{
-				console.log(newData[i].data);
-				console.log('-');
-				console.log(data.data);
 				if(newData[i].data==data.data)
 				{
 					newData.splice(i,1)
