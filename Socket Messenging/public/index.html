@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messenger</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="page-content-wrapper" style="margin: 50px 400px 50px 400px;box-shadow: 1px 3px 5px rgba(0,0,0,0.05);border-radius: 2px;">
+        <div id="chat-window" class="scrollable " style="background: #f9f9f9;height: 400px;">
+            <div id="feedback"></div>
+            <div id="outputMessenge"></div>
+        </div>
+        <input class="form-control" type="text" id="handle" placeholder="Sender Name">
+        <input class="form-control" type="text"  id="message" placeholder="Message!!!">
+        <button class="btn" id="btnsend">Send Messenge</button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <script src="/js/index-js.js"></script>    
+</body>
+</html>
