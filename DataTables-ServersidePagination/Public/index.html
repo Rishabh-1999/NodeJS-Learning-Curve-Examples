@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<head>
+<title>CQ</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+
+<link rel="stylesheet" href="  https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src="https://cdn.ckeditor.com/4.11.4/full/ckeditor.js"></script>
+
+</head>
+<body>
+<div class="">
+
+  <style media="screen">
+  .head{
+    margin : 10px;
+    height: 34px;
+    width: 90px;
+    background: #2D312C;
+    color: #fff;
+    font-weight: bold;
+    float: left;
+    border: 2px solid #2D312C;
+    padding : 6px 12px;
+    font-size : 14px;
+
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.6);
+  }
+
+  .btn {
+      border-radius: 0;
+      outline: none !important;
+  }
+  .btn-sm {
+      padding: 5px 10px;
+      font-size: 12px;
+      line-height: 1.5;
+  }
+  .btn-primary {
+      color: #fff;
+      background-color: #337ab7;
+      border-color: #2e6da4;
+  }
+  .actionbtns {
+      margin: 3px;
+  }
+  .btn-warning {
+      color: #fff;
+      background-color: #f0ad4e;
+      border-color: #eea236;
+  }
+  .selectbox{
+    float: right;
+      margin: 10px;
+      background-color: #2D312C;
+      color: #fff;
+      font-size: 16px;
+      height: 38px;
+      border-radius: 4px;
+      cursor : pointer;
+  }
+  .refreshspan{
+    content : \e031;
+  }
+  .divpop{
+    top: 1%;
+  position: fixed;
+  height: auto;
+  width: 50%;
+  background-color: #fff;
+  opacity: 1;
+  left: 25%;
+  /* right: 500px; */
+  overflow: hidden;
+  }
+  #activateuser{
+    display : inline-block;
+  }
+  .Action{
+    padding : 5px;
+  }
+  #deactivateuser{
+    display : inline-block;
+  }
+  </style>
+
+  <div style="background-color :ghostwhite; font-size : 14px; ">
+
+
+
+
+    <div>
+    <div class="head">
+      <center>
+    User List
+  </center>
+  </div>
+
+
+  <select class="selectbox" id="suser">
+    <option selected>All</option>
+    <option>Admin</option>
+    <option>User</option>
+    <option>Community Builder</option>
+  </select>
+
+  <select class="selectbox" id="sstatus">
+  <option selected>All</option>
+  <option >Pending</option>
+  <option >Confirmed</option>
+  </select>
+  <button onclick="refresh()" class="btn btn-default" style="margin :10px;float: right;background-color: #2D312C;color: #fff; float : right; ">
+          <span class="fa fa-refresh"></span> Refresh
+        </button>
+
+    </div>
+
+    <br>
+    <br>
+    <div style="margin : 10px;" class="table-responsive-md">
+    <table id="mydt" class="table table-striped table-bordered " style="width:100%">
+            <thead>
+                <tr>
+                    <th>Username/Email</th>
+                    <th>Phone</th>
+                    <th>City</th>
+                    <th>Status</th>
+                    <th>Role</th>
+                    <th style="min-width : 150px">Action</th>
+                </tr>
+            </thead>
+            <tbody id="tablebody">
+
+            </tbody>
+        </table>
+    </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script src ="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js">
+  </script>
+  <script>
+    var mydt=document.getElementById('mydt');
+    var tbody=document.getElementById('tablebody');
+  //  var data=[];
+
+    function getdata(setstatus,setrole)
+    {
+
+          $.fn.dataTable.ext.errMode = 'none';
+          $(document).ready(function() {
+            $('#mydt').DataTable({
+              "processing" : true,
+              "serverSide" : true,
+            "ajax" : {
+              "url" : "/gettabledata",
+              "type" : "POST",
+              "data" : function(d){
+                d.status=setstatus;
+                d.role=setrole;
+              }
+            },
+            "columns" : [
+            {
+              "data" : "username"
+            },
+            {
+              "data" : "phoneNo",
+              "orderable" : 'false'
+            },
+            {
+              "data" : "city"
+            },
+            {
+              "data" : "status"
+            },
+            {
+              "data" : "userType"
+            },
+            {
+          "data":null
+            }
+          ],
+
+                      columnDefs: [
+
+             {
+                 targets:-1, // Start with the last
+                 orderable : 'false',
+                 render: function ( data, type, row, meta ) {
+
+                          if(type=='display')
+                        {
+                                   data = '<div id="divbut" ><center><a class="btn btn-primary btn-sm emailbtn actionbtns" onclick="emailpop(event)" data-toggle="modal" data-target="#emailpopup" id="emailbutton" style="background:#000;  padding-right : 10px; "><span class="fa fa-envelope" style="color:#fff; font-size:small; "></span></a></center> </div>';
+
+
+                        }
+
+                     return data;
+                 }
+             }
+
+         ],
+         rowId :"_id",
+            });
+
+          } );
+    }
+  getdata("All","All");
+
+
+
+
+  </script>
+
+  </div>
+
+
+</div>
+
+</body>
+
+
+</html>
