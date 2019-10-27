@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+</style>
+</head>
+<body>
+
+    <div id="id01" class="modal">
+  
+        <form class="modal-content animate" method="POST" action="/upload" enctype="multipart/form-data">
+          <div class="imgcontainer">
+              <input type="file" name="profilePic" id="file" onchange="checkFileDetails()" />
+           </div>
+           <p id="fileInfo"></p>
+          <div class="container">
+           
+            <button type="submit">Send</button>
+           
+          </div>
+      
+         
+        </form>
+      </div>
+
+
+      <script>
+          function checkFileDetails() {
+              var fi = document.getElementById('file');
+              if (fi.files.length > 0) {      // FIRST CHECK IF ANY FILE IS SELECTED.
+                 
+                  for (var i = 0; i <= fi.files.length - 1; i++) {
+                      var fileName, fileExtension, fileSize, fileType, dateModified;
+      
+                      // FILE NAME AND EXTENSION.
+                      fileName = fi.files.item(i).name;
+                      fileExtension = fileName.replace(/^.*\./, '');
+      
+                      // CHECK IF ITS AN IMAGE FILE.
+                      // TO GET THE IMAGE WIDTH AND HEIGHT, WE'LL USE fileReader().
+                      if (fileExtension == 'png' || fileExtension == 'jpg' || fileExtension == 'jpeg') {
+                         readImageFile(fi.files.item(i));             // GET IMAGE INFO USING fileReader().
+                      }
+                      else {
+                          // IF THE FILE IS NOT AN IMAGE.
+                              
+                          fileSize = fi.files.item(i).size;  // FILE SIZE.
+                          fileType = fi.files.item(i).type;  // FILE TYPE.
+                          dateModified = fi.files.item(i).lastModifiedDate;  // FILE LAST MODIFIED.
+      
+                          document.getElementById('fileInfo').innerHTML =
+                              document.getElementById('fileInfo').innerHTML + '<br /> ' +
+                                  'Name: <b>' + fileName + '</b> <br />' +
+                                  'File Extension: <b>' + fileExtension + '</b> <br />' +
+                                  'Size: <b>' + Math.round((fileSize / 1024)) + '</b> KB <br />' +
+                                  'Type: <b>' + fileType + '</b> <br />' +
+                                  'Last Modified: <b>' + dateModified + '</b> <br />';
+                      }
+                  }
+      
+                  // GET THE IMAGE WIDTH AND HEIGHT USING fileReader() API.
+                  function readImageFile(file) {
+                      var reader = new FileReader(); // CREATE AN NEW INSTANCE.
+      
+                      reader.onload = function (e) {
+                          var img = new Image();      
+                          img.src = e.target.result;
+      
+                          img.onload = function () {
+                              var w = this.width;
+                              var h = this.height;
+      
+                              document.getElementById('fileInfo').innerHTML =
+                                  document.getElementById('fileInfo').innerHTML + '<br /> ' +
+                                      'Name: <b>' + file.name + '</b> <br />' +
+                                      'File Extension: <b>' + fileExtension + '</b> <br />' +
+                                      'Size: <b>' + Math.round((file.size / 1024)) + '</b> KB <br />' +
+                                      'Width: <b>' + w + '</b> <br />' +
+                                      'Height: <b>' + h + '</b> <br />' +
+                                      'Type: <b>' + file.type + '</b> <br />' +
+                                      'Last Modified: <b>' + file.lastModifiedDate + '</b> <br />';
+                          }
+                      };
+                      reader.readAsDataURL(file);
+                  }
+              }
+          }
+      </script>
+</body>
+</html>

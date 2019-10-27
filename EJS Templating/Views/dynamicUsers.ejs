@@ -1,0 +1,32 @@
+
+<html>
+        <head>
+        <title>
+            CodeQuotient
+        </title>
+        </head>
+        <body>
+            <div >
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                    </tr>
+                    <% data.forEach( (user)=>{%>
+                        <tr>  
+                            <td>
+                                    <%- user.name %>
+                            </td>  
+                            <td>
+                                    <%-user.age %>
+                            </td> 
+                        </tr>
+
+
+<%})%>
+     
+</table>
+
+</div>
+</body>
+</html>
