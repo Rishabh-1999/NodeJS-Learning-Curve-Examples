@@ -1,5 +1,5 @@
 {
-  "name": "routing",
+  "name": "ajax-get-post",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",

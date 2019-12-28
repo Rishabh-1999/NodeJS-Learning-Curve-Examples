@@ -1,32 +1,36 @@
 <html>
+
 <body>
-<button type="button" onclick="loadDoc()">Get Request</button>
-<br/>
-<button type="button" onclick="sendData()">Post Request</button>
+  <button type="button" onclick="loadDoc()">Get Request</button>
+  <br />
+  <button type="button" onclick="sendData()">Post Request</button>
 
-<p id="demo"></p>
+  <p id="demo"></p>
 
-<script>
+  <script>
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("demo").innerHTML = this.responseText;
+      }
+    };
 
-var xhttp = new XMLHttpRequest();
-xhttp.onreadystatechange=function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("demo").innerHTML = this.responseText;
+    function loadDoc() {
+      xhttp.open("GET", "/getURL");
+      xhttp.setRequestHeader("Content-Type", "application/json");
+      xhttp.send();
     }
-  };
-  
-function loadDoc() {
-  xhttp.open("GET", "/getURL");
-  xhttp.setRequestHeader("Content-Type", "application/json");
-  xhttp.send();
-}
 
-function sendData() {
-  xhttp.open("POST", "/postURL");
-  xhttp.setRequestHeader("Content-Type", "application/json");
-  xhttp.send(JSON.stringify({name: 'ABC' , userId : '12345'}));
-}
-</script>
+    function sendData() {
+      xhttp.open("POST", "/postURL");
+      xhttp.setRequestHeader("Content-Type", "application/json");
+      xhttp.send(JSON.stringify({
+        name: 'ABC',
+        userId: '12345'
+      }));
+    }
+  </script>
 
 </body>
+
 </html>
