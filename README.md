@@ -1,6 +1,5 @@
-### Node-JS-Examples
+# Node-JS-Examples
 <br>
-Assignment Made for College Using Node JS for Advanced Web Development Course
+These contains Assignments/Example which I did during learning node js.
 <br>
 To Use Following pages Use http://localhost:3000
-<h3 align="right">Made By Rishabh</h3>
